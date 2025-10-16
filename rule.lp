@@ -1,5 +1,5 @@
 % ===================================================================
-%  EWBAF Consistent Cover Finder using Answer Set Prolog
+%  WBAFII Consistent Cover Finder using Answer Set Prolog
 % ===================================================================
 
 value("LS"). value("L"). value("VL"). value("AC"). value("C").
@@ -7,13 +7,13 @@ value("LS"). value("L"). value("VL"). value("AC"). value("C").
 less_than("LS","L"). less_than("L","VL"). less_than("VL","AC"). less_than("AC","C").
 less_than(X,Z) :- less_than(X,Y), less_than(Y,Z).
 
-% ---------- Generate Evidential Assignments ----------
+% ---------- 1. Generate Assignments ----------
 
 { credibility(N, V) : value(V) } <= 1 :- node(N), not user_assigned(N).
 { relevance(From, To, Type, V) : value(V) } <= 1 :- unknown_edge(From, To, Type).
 
 
-% ---------- Inference Calculations ----------
+% ---------- 2. Inference Calculations ----------
 
 final_credibility(N, V) :- user_assigned(N), credibility(N, V).
 final_credibility(N, V) :- not user_assigned(N), credibility(N, V).
@@ -71,7 +71,7 @@ inferred_credibility(N, F) :-
     function(S, A, F).
 
 
-% ---------- Consistency Check ----------
+% ---------- 3. Consistency Check ----------
 leaf_node(N) :-
     node(N),
     not edge(_, N, support, _),
@@ -96,7 +96,7 @@ inconsistency(N, F) :-
 :- inconsistency(_, _).
 
 
-% ---------- Output ----------
+% ---------- 4. Output ----------
 consistent_argument_status(N, V) :-
     node(N),
     not leaf_node(N),
@@ -118,4 +118,5 @@ leaf_argument_status(N, "no_value_assigned") :-
     not final_credibility(N, _).
 
 #show consistent_argument_status/2.
+
 #show leaf_argument_status/2.
