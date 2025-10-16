@@ -1,2 +1,2 @@
 # wbaf-ii
-An weighted argumentation framework for incomplete information
+An weighted bipolar argumentation framework for incomplete information
